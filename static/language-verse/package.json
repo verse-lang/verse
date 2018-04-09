@@ -1,0 +1,17 @@
+{
+	"name": "language-verse",
+	"version": "0.0.0",
+	"description": "Verse language support in Atom",
+	"engines": {
+		"atom": "*"
+	},
+	"dependencies": {},
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"bugs": {
+		"url": ""
+	},
+	"license": ""
+}

@@ -1,0 +1,3 @@
+class Array<T> u32 length|
+	T[]* data: new T[length]
+	set Array<T> source =>

@@ -1,0 +1,22 @@
+class Collection<T>
+	T[]* data: new T[1]
+	U32 size: 1
+	U32 length: 0
+	U32 add =>
+		if length == size
+			grow()
+		return length++
+	remove => U32 index
+		if index != --length
+			data[index] = data[length]
+		if length < size / 4.0
+			shrink()
+	grow =>
+		#T[]* oldData = data
+		data = new T[size <<= 1]
+		memcpy(data, oldData, sizeof(T) * length)
+	shrink =>
+		if size != 1
+			#T[]* oldData = data
+			size >>>= 1
+			memcpy(data, oldData, sizeof(T) * size)

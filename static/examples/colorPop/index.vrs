@@ -1,0 +1,87 @@
+import math from "std"
+import "DOM"
+
+#U32 s = 1
+#F32 clrOff = 0.05
+
+HTMLCanvasElement canvas
+u16 cols
+u16 rows
+CanvasRenderingContext2D ctx
+U8[] filled = null
+Block[] list = null
+F32 nodeProg = 0.0
+Bool mousePressed = false
+document = new Page()
+
+struct Block
+	u16 x y
+	u8 r g b
+T rand => max
+	math.random() * max | 0
+T clamp => v min max
+	v < min ? min : (v > max ? max : v)
+F32 srgbToLinear => c
+	c > 0.04045 ? math.pow((c + 0.055) / (1 + 0.055), 2.4) : c / 12.92
+F32 linearToSrgb => c
+	c > 0.0031308 ? (1 + 0.055) * Math.pow(c, 1 / 2.4) - 0.055 : 12.92 * c
+U8 adjustColor => cc
+	#variance = math.random() * clrOff * 2 - clrOff
+	#newC = linearToSrgb(srgbToLinear(cc / 255.0) + variance)
+	clamp(math.round(newC * 255), 0, 255)
+addNode => Block a
+	if a.x < 0 || a.x >= cols || a.y < 0 || a.y >= rows
+		return
+	#U32 index = a.x + a.y * cols
+	#U32 byte = index >> 3
+	#U8 bit = index & 7
+	if filled[byte] >> bit & 1 == 0
+		list.add(a)
+		filled[byte] |= 1 << bit
+fillNode => Block a
+	#U8 nr = adjustColor(a.r)
+	#U8 ng = adjustColor(a.g)
+	#U8 nb = adjustColor(a.b)
+	ctx.setFill(a.r, a.g, a.b)
+	ctx.fillRect(a.x * s, a.y * s, s, s)
+	addNode(a.x, a.y - 1, nr, ng, nb)
+	addNode(a.x + 1, a.y, nr, ng, nb)
+	addNode(a.x, a.y + 1, nr, ng, nb)
+	addNode(a.x - 1, a.y, nr, ng, nb)
+	list.remove(a)
+loop =>
+	if list.length != 0
+		step()
+	requestAnimationFrame(loop)
+step +>
+	nodeProg += list.length / math.tau
+	while nodeProg > 1 && list.length > 0
+		nodeProg--
+		if list.length == list.size
+			list.grow()
+		$index = rand(list.size)
+		while list.used.has(index) != 1
+			index = rand(list.size)
+		fillNode(list[index])
+addFromEvent => Event evt
+	addNode(evt.clientX, evt.clientY, rand(256), rand(256), rand(256))
+mouseMove => Event evt
+	if mousePressed
+		addFromEvent(evt)
+mouseDown => Event evt
+	addFromEvent(evt)
+	mousePressed = true
+mouseUp => Event evt
+	mousePressed = false
+init +>
+	canvas = document.getElementById("canvas")
+	cols = math.ceil((canvas.width = innerWidth) / s)
+	rows = math.ceil((canvas.height = innerHeight) / s)
+	ctx = canvas.getContext("2d")
+	canvas.addEventListener("mousemove", mouseMove)
+	canvas.addEventListener("mousedown", mouseDown)
+	window.addEventListener("mouseup", mouseUp)
+	filled = new u8[math.ceil(cols * rows / 8.0)]
+	requestAnimationFrame(loop)
+
+document.addEventListener("DOMContentLoaded", init)

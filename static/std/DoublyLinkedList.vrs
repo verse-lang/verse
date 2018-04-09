@@ -1,0 +1,65 @@
+class Node<T> #T* payload|
+	Node* next: null
+	Node* prev: null
+class DoublyLinkedList
+	u32 length: 0
+	Node first: null
+	Node last: null
+	u32 unshift => Node node
+		if last == null
+			last = node
+		node.next = first
+		if first != null
+			first.prev = node
+		first = node
+		return ++length
+	u32 push => Node node
+		if first == null
+			first = node
+		node.prev = last
+		if last != null
+			last.next = node
+		last = node
+		return ++length
+	}
+	Node* shift =>
+		#Node* node = first
+		first = node.next
+		if first != null
+			first.prev = null
+		length--
+		return node
+	}
+	Node* pop =>
+		#Node* node = last;
+		last = node.prev;
+		if last != null
+			last.next = null
+		length--
+		return node
+	Node* get => u32 index
+		Node* node = null
+		if index < length / 2
+			node = first
+			u32 n = 0;
+			while n < index
+				node = node.next
+				n++
+		else
+			node = last
+			u32 n = length - 1
+			while n > index
+				node = node.prev
+				n--
+		return node
+	insert => Node* node u32 index
+		//TODO
+	Node* remove => DNode* node
+		if node == first
+			return shift()
+		elif node == last
+			return pop()
+		node.prev.next = node.next
+		node.next.prev = node.prev
+		length--
+		return node

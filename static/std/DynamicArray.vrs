@@ -1,0 +1,24 @@
+class DynamicArray<T>
+	T[] data: new T[1]
+	u32 cap: 1
+	u32 length: 0
+	push => T elm
+		if length == cap
+			grow()
+		data[length++] = elm
+	T pop =>
+		if --length < cap / 4.0
+			shrink()
+		return data[length]
+	grow =>
+		#T[] oldData = data
+		data = new T[cap <<= 1]
+		memcpy(data, oldData, sizeof(T) * length)
+		delete oldData
+	shrink =>
+		if cap == 1
+			return
+		#T[] oldData = data
+		data = new T[cap >>>= 1]
+		memcpy(data, oldData, sizeof(T) * cap)
+		delete oldData

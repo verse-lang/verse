@@ -1,0 +1,162 @@
+scopeName: "source.verse"
+name: "Verse"
+fileTypes: ["vrs", "verse"]
+
+patterns: [
+	{ # single line comment
+		begin: "\\/\\/"
+		end: "\n"
+		name: "comment.line.verse"
+	}
+	{ # block comment
+		begin: "\\/\\*"
+		end: "\\*\\/"
+		name: "comment.block.verse"
+	}
+	{ # string literal
+		begin: "\""
+		end: "\""
+		patterns: [
+			{
+				match: "\\."
+				name: "constant.character.escape.verse"
+			}
+		]
+		name: "string.quoted.double.verse"
+	}
+	{ # import command
+		match: "(import) (\"(?:[^\n\"\\\\]|\\\\.)*\")\n"
+		captures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "string.quoted.double.verse"
+	}
+	{ # import from command
+		match: "(import) ([A-Za-z]\\w*) (from) (\"(?:[^\n\"\\\\]|\\\\.)*\")\n"
+		captures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "variable.language.verse"
+			3:
+				name: "keyword.control.verse"
+			4:
+				name: "string.quoted.double.verse"
+	}
+	{ # import as command
+		match: "(import) ([A-Za-z]\\w*) (as) ([A-Za-z]\\w*) (from) (\"(?:[^\n\"\\\\]|\\\\.)*\")\n"
+		captures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "variable.language.verse"
+			3:
+				name: "keyword.control.verse"
+			4:
+				name: "variable.language.verse"
+			5:
+				name: "keyword.control.verse"
+			6:
+				name: "string.quoted.double.verse"
+	}
+	{ # alias command
+		match: "(alias) ([A-Za-z]\\w*) (as) ([A-Za-z]\\w*)\n"
+		captures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "variable.language.verse"
+			3:
+				name: "keyword.control.verse"
+			4:
+				name: "variable.language.verse"
+	}
+	{ # struct declaration
+		match: "(struct) ([A-Z]\\w*)"
+		captures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "entity.name.type.verse"
+	}
+	{ # class declaration
+		match: "(class) ([A-Z]\\w*)(?:(<)([A-Z][a-z]*)(>))?(?: (#?)([a-zA-Z]\\w*)((?:\\*|\\[(\\d*)\\])*) ([a-zA-Z]\\w*))*"
+		captures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "entity.name.type.verse"
+			3:
+				name: "keyword.operator.verse"
+			4:
+				name: "storage.type.verse"
+			5:
+				name: "keyword.operator.verse"
+			6:
+				name: "keyword.operator.verse"
+			7:
+				name: "storage.type.verse"
+			8:
+				name: "keyword.operator.verse"
+			9:
+				name: "constant.numeric.verse"
+			10:
+				name: "variable.parameter.verse"
+		name: "meta.classDec.verse"
+	}
+	{ # function declaration
+		match: "(\\w+(?:\\*|\\[(\\d*)\\])* )?([a-zA-Z]\\w*) (=>(?![~!@#$%^&*\\-+=/<>\\[\\]:;|?]))(?: ([a-zA-Z]\\w*) ([a-zA-Z]\\w*))?"
+		captures:
+			1:
+				name: "storage.type.verse"
+			2:
+				name: "constant.numeric.verse"
+			3:
+				name: "entity.name.function"
+			4:
+				name: "keyword.control.verse"
+			5:
+				name: "storage.type.verse"
+			6:
+				name: "variable.parameter.verse"
+	}
+	{ # function call
+		match: "([a-zA-Z]\\w*)\\("
+		captures:
+			1:
+				name: "entity.name.function.call.verse"
+	}
+	{ # variable declaration
+		match: "(#)?([a-zA-Z]\\w*)((?:\\*|\\[(\\d*)\\])*) ([a-z]\\w*)(:| =)(?!=)"
+		captures:
+			1:
+				name: "keyword.operator.verse"
+			2:
+				name: "storage.type.verse"
+			3:
+				name: "keyword.operator.verse"
+			4:
+				name: "constant.numeric.verse"
+			5:
+				name: "variable.other.declaration.verse"
+			6:
+				name: "keyword.operator.verse"
+	}
+	{ # keyword
+		match: "\\b(?:if|while|for|new|delete|return)\\b"
+		name: "keyword.control.verse"
+	}
+	{ # constants
+		match: "\\b(?:true|false|null)\\b"
+		name: "constant.language.verse"
+	}
+	{ # numeric literal
+		match: "\\b\\d+(?:\\.\\d+)?\\b"
+		name: "constant.numeric.verse"
+	}
+	{ # operator
+		match: "[~!@#$%^&*\\-+=/<>\\[\\]:;|?]+"
+		name: "keyword.operator.verse"
+	}
+]

@@ -1,0 +1,10 @@
+<indentation>:=\t
+<break>:=\n
+<whitespace>\s+
+<identifier>:=[a-zA-Z][a-zA-Z0-9]*
+<grouping>:=[()[\]]
+<comment>:=//[^\n]*
+<blockComment>:=/\*([^*]|\*[^/])*\*/
+<operator>:=[+\-*/%=&^|<>~!?:.$#@\\]+
+<string>:="([^"\n\\]|\\[^\n])*"
+<number>:=\d+(.\d+)?

@@ -1,0 +1,28 @@
+<indentation>:=\t
+<break>:=\n
+<whitespace>\s+
+<identifier>:=[a-zA-Z][a-zA-Z0-9]*
+void identifier(Stream* this) {
+	if (!(StreamMatchRange(this, 'a', 'z') ||
+		StreamMatchRange(this, 'A', 'Z'))) return;
+	while(StreamMatchRange(this, 'a', 'z') ||
+		StreamMatchRange(this, 'A', 'Z') ||
+		StreamMatchRange(this, '0', '9'));
+}
+void identifier(u32 i, Stream *this) {
+	u32 i = this->index;
+	const char *text = this->content;
+	if ((text[i] >= 'a' && text[i] <= 'z') || (text[i] >= 'A' && text[i] <= 'Z'))
+		i++;
+	else return;
+	while ((text[i] >= 'a' && text[i] <= 'z') || (text[i] >= 'A' && text[i] <= 'Z') || (text[i] >= '0' && text[i] <= '9'))
+		i++;
+	this->index = i;
+}
+
+<grouping>:=[()[\]]
+<comment>:=//[^\n]*
+<blockComment>:=/\*([^*]|\*[^/])*\*/
+<operator>:=[+\-*/%=&^|<>~!?:.$#@]+
+<string>:="([^"\n\\]|\\[^\n])*"
+<number>:=\d+(.\d+)?
