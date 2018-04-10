@@ -19,8 +19,8 @@ int main(const int argc, const char *argv[]) {
 
 	const Stream stream = {content, size, 0};
 	const TokenDynArray tokens = lexer(stream);
-	puts("\n\n");
-	for (int n = 0; n < tokens.length; n++) {
+	printf("length: %i, capacity: %i\n\n", tokens.length, tokens.cap);
+	for (u32 n = 0; n < tokens.length; n++) {
 		const Token cur = tokens.data[n];
 		const char c = content[cur.end];
 		content[cur.end] = '\0';

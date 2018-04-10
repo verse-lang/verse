@@ -1,7 +1,7 @@
 class DynamicArray<T>
 	T[] data: new T[1]
-	u32 cap: 1
-	u32 length: 0
+	U32 cap: 1
+	U32 length: 0
 	push => T elm
 		if length == cap
 			grow()
@@ -22,3 +22,5 @@ class DynamicArray<T>
 		data = new T[cap >>>= 1]
 		memcpy(data, oldData, sizeof(T) * cap)
 		delete oldData
+	T op [ U32 b
+		return data[b]

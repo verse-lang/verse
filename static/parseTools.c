@@ -75,11 +75,11 @@ typedef struct {
 	u32 length;
 	Token* data; // array
 } TokenDynArray;
-void TokenDynArrayGrow(TokenDynArray tokens) {
-	const Token* oldData = tokens.data;
-	tokens.data = (Token *)malloc(sizeof(Token) * (tokens.cap <<= 1));
-	memcpy(tokens.data, oldData, tokens.cap >> 1);
-	free(oldData);
+void TokenDynArrayGrow(TokenDynArray *tokens) {
+	const u32 byteLen = sizeof(Token) * (tokens->cap <<= 1);
+	tokens->data = (Token*)realloc(tokens->data, byteLen);
+	if (tokens->data == NULL) puts("out of memory when growing.");
+	//printf("grown to %i\n", tokens->cap);
 }
 
 #endif /* parseTools */
