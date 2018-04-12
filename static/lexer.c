@@ -1,8 +1,6 @@
 #ifndef lexer
 
 #include <stdio.h>
-#include <stdint.h>
-//#include <stdlib.h>
 #include "parseTools.c"
 
 const u8 identifierID = 0;
@@ -149,7 +147,7 @@ TokenDynArray lexer(Stream stream) {
 			current->end = end;
 			i = end;
 		}
-		DynArrayGrow(&tokens, sizeof(Token));
+		DynArrayGrow((DynArray *)&tokens, sizeof(Token));
 	}
 }
 

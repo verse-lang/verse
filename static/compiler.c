@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "loadFile.c"
 #include "lexer.c"
-//#include "parser.c"
+#include "parser.c"
 
 int main(const int argc, const char *argv[]) {
 	if (argc < 2) {

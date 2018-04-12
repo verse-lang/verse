@@ -73,13 +73,18 @@ typedef struct { // extends Match
 typedef struct {
 	u32 cap;
 	u32 length;
-	Token* data; // array
-} TokenDynArray;
-void DynArrayGrow(const void *array, const u32 unitSize) {
-	const u32 byteLen = unitSize * (*((u32*)array) <<= 1);
-	const void **data = (void*)((u32)array + sizeof(u32) * 2);
-	*data = (void*)realloc(*data, byteLen);
-	if (*data == NULL) puts("out of memory when growing.");
+	void *data;
+} DynArray;
+void DynArrayGrow(DynArray *array, const u32 unitSize) {
+	const u32 byteLen = unitSize * (array->cap <<= 1);
+	array->data = (void *)realloc(array->data, byteLen);
+	if (array->data == NULL) puts("out of memory when growing.");
 }
+
+typedef struct { // extends DynArray
+	u32 cap;
+	u32 length;
+	Token *data; // array
+} TokenDynArray;
 
 #endif /* parseTools */
