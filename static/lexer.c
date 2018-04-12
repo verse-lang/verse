@@ -149,7 +149,7 @@ TokenDynArray lexer(Stream stream) {
 			current->end = end;
 			i = end;
 		}
-		TokenDynArrayGrow(&tokens);
+		DynArrayGrow(&tokens, sizeof(Token));
 	}
 }
 

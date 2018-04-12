@@ -75,11 +75,11 @@ typedef struct {
 	u32 length;
 	Token* data; // array
 } TokenDynArray;
-void TokenDynArrayGrow(TokenDynArray *tokens) {
-	const u32 byteLen = sizeof(Token) * (tokens->cap <<= 1);
-	tokens->data = (Token*)realloc(tokens->data, byteLen);
-	if (tokens->data == NULL) puts("out of memory when growing.");
-	//printf("grown to %i\n", tokens->cap);
+void DynArrayGrow(const void *array, const u32 unitSize) {
+	const u32 byteLen = unitSize * (*((u32*)array) <<= 1);
+	const void **data = (void*)((u32)array + sizeof(u32) * 2);
+	*data = (void*)realloc(*data, byteLen);
+	if (*data == NULL) puts("out of memory when growing.");
 }
 
 #endif /* parseTools */
