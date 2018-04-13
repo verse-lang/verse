@@ -12,11 +12,7 @@ class Collection<T>
 		if length < size / 4.0
 			shrink()
 	grow =>
-		#T[]* oldData = data
-		data = new T[size <<= 1]
-		memcpy(data, oldData, sizeof(T) * length)
+		data = realloc(data, cap <<= 1)
 	shrink =>
-		if size != 1
-			#T[]* oldData = data
-			size >>>= 1
-			memcpy(data, oldData, sizeof(T) * size)
+		if cap > 1
+			data = realloc(data, cap >>>= 1)

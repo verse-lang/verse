@@ -22,42 +22,6 @@ typedef struct { // extends String
 	u32 length;
 	u32 index;
 } Stream;
-/*bool StreamMatchChar(Stream *this, char chr) {
-	if (this->index < this->length && this[this->index] == chr) {
-		this->index++;
-		return true;
-	}
-	return false;
-}
-bool StreamMatchString(Stream *this, String *string) {
-	u32 end = this->index + string->length;
-	if (end > this.length) return false;
-	while (n < string->length) {
-		if (this->content[this->index] != string->content[n]) return false;
-		this->index++;
-		n++;
-	}
-	return true;
-}
-bool StreamMatchRange(Stream* this, char min, char max) {
-	if (this->index >= this->length ||
-		this->content[this->index] > max ||
-		this->content[this->index] < min) return false;
-	this->index++;
-	return true;
-}
-void StreamMatchCharMany(Stream *this, char chr) {
-	while (this->index < this->length && this->content[this->index] == chr) {
-		this->index++;
-	}
-}
-void StreamMatchStringMany(Stream *this, String *string) {
-	u32 start;
-	do {
-		start = this->index;
-	} while (StreamMatchString(this, string));
-	this->index = start;
-}*/
 
 typedef struct {
 	u32 begin;
