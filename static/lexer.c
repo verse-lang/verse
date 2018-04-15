@@ -53,7 +53,7 @@ u32 string(const char *text, u32 i) {
 		while (true) {
 			c = text[++i];
 			if (c == '"') {
-				return i;
+				return i + 1;
 			} else if (c == '\\') {
 				c = text[++i];
 				if (c == '\0') {
@@ -141,6 +141,8 @@ TokenDynArray lexer(Stream stream) {
 				return tokens;
 			} else {
 				printf("Lexer error, unrecognized token: Line %i, character %i.\n", row, i - lineStart);
+				--tokens.length;
+				TokenDynArrayPrint(tokens, (char*)text);
 				tokens.length = 0;
 				return tokens;
 			}

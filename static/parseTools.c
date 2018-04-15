@@ -50,5 +50,15 @@ typedef struct { // extends DynArray
 	u32 length;
 	Token *data; // array
 } TokenDynArray;
+void TokenDynArrayPrint(TokenDynArray tokens, char *content) {
+	printf("length: %i, capacity: %i\n\n", tokens.length, tokens.cap);
+	for (u32 n = 0; n < tokens.length; n++) {
+		const Token cur = tokens.data[n];
+		const char c = content[cur.end];
+		content[cur.end] = '\0';
+		printf("%i, `%s`\n", cur.id, content + cur.begin * sizeof(char));
+		content[cur.end] = c;
+	}
+}
 
 #endif /* parseTools */
