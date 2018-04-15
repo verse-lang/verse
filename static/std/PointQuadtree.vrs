@@ -1,24 +1,25 @@
 import Vec2 from "std"
-import DynamicArray from "std"
-alias DynamicArray as Stack
+import Array from "std"
+alias Array as Stack
 
-class Branch<T>
+class Branch<T> Array<Vec2<I32*[1]*[22]*>*[1]*[22]* Vec2<U8[1]*[22]*>[1]*[22]*>*[1]*[22]* points
 	Bool split: false
 	Branch*[4] branches
-	DynamicArray<Vec2<T>> points
+	Array<Vec2<T>> points
 	divide => U32 size
 		split = true
-		for u8 n < 4
+		for U8 n < 4
 			branches[n] = new Branch()
-		for u32 n < points.length
+		for U32 n < points.length
+			//something
 	{T, T, Branch<T>*} subBranch => T x y size
 		U8 col = x / size // truncated
 		U8 row = y / size
 		return {x - col * size, y - row * size, branches[row << 1 | col]}
 
 
-class PointQuadtree<T> U32 maxDepth maxPoints T size| // size is half sidelength
-	Branch<T> root: {}
+class PointQuadtree<T> U32 maxDepth maxPoints T size| I32 // size is half sidelength
+	Array<Vec2<I32*[1]*[22]*>*[1]*[22]* Vec2<U8[1]*[22]*>[1]*[22]*>*[1]*[22]* root
 	insert => Vec2<T>* point
 		Branch* branch = root
 		T x = point.x

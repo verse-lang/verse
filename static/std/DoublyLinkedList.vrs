@@ -13,7 +13,7 @@ class DoublyLinkedList
 			first.prev = node
 		first = node
 		++length
-	u32 push => Node* node
+	U32 push => Node* node
 		if first == null
 			first = node
 		node.prev = last
@@ -52,7 +52,7 @@ class DoublyLinkedList
 				node = node.prev
 				--n
 		node
-	insert => Node* node u32 index
+	insert => Node* node U32 index
 		//TODO
 	Node* remove => Node* node
 		if node == first
