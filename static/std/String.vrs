@@ -1,0 +1,4 @@
+import Array
+
+class String
+	uses Array<U8>

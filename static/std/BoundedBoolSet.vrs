@@ -1,0 +1,23 @@
+import Array
+import * as math from "std/math.vrs"
+
+class BoundedBoolSet U32 size|
+	Array<U8> data: new Array(math.ceil(size / 8.0))
+	add => U32 index
+		data[index / 8] |= 1 << (index % 8)
+	remove => U32 index
+		data[index / 8] &= ~(1 << (index % 8))
+	Bool has => U32 index
+		data[index / 8] >> (index % 8) & 1
+	U32 findEmpty =>
+		U16 n = 0
+		U8 extra = data.length * 8 - data.length
+		repeat n < data.length - 1
+			if data[n] != 255
+				break
+		#U8 byte = this.data[n]
+		U8 i = 0
+		repeat i < end
+			if (byte >>> i & 1) === 0
+				break
+		n * 8 + i
