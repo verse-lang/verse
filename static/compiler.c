@@ -20,5 +20,7 @@ int main(const int argc, const char *argv[]) {
 	const Stream stream = {content, size, 0};
 	const TokenDynArray tokens = lexer(stream);
 	TokenDynArrayPrint(tokens, content);
+
+	parser(tokens, content);
 	return 0;
 }

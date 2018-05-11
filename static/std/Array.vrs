@@ -1,7 +1,6 @@
-class Array<T>
-	T[] data: new T[1]
-	U32 cap: 1
+class Array<T> U32 (cap = 1)|
 	U32 length: 0
+	T[] data: new T[cap]
 	push => T elm
 		if length == cap
 			grow()
@@ -11,9 +10,9 @@ class Array<T>
 			shrink()
 		data[length]
 	grow =>
-		data = realloc(data, cap <<= 1)
+		data = realloc(data, cap *= 2)
 	shrink =>
 		if cap > 1
-			data = realloc(data, cap >>>= 1)
+			data = realloc(data, cap /= 2)
 	T op [ U32 b
 		data[b]
