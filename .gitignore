@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+\.vs/
+
+cpp-compiler/Debug/
+
+*.sln
+
+*.filters
+
+*.user
+
+*.vcxproj
