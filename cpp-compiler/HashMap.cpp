@@ -1,4 +1,8 @@
-#include "HashMap.hpp"
+#pragma once
+
+#include <vector>
+#include <utility>
+#include "typedefs.cpp"
 
 template<typename T> class HashMap {
 public:

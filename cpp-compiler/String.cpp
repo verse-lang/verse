@@ -1,4 +1,6 @@
-#include "String.hpp"
+#pragma once
+
+#include "typedefs.cpp"
 
 class String {
 public:

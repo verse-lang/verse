@@ -1,4 +1,7 @@
-#include "Token.hpp"
+#pragma once
+
+#include "typedefs.cpp"
+#include "Match.cpp"
 
 class Token : public Match {
 public:

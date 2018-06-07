@@ -1,4 +1,6 @@
-#include "VStream.hpp"
+#pragma once
+
+#include "typedefs.cpp"
 
 struct VStream {
 	char *content;

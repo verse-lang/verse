@@ -1,4 +1,6 @@
-#include "Match.hpp"
+#pragma once
+
+#include "typedefs.cpp"
 
 class Match {
 public:

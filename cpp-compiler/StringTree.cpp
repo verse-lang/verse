@@ -1,4 +1,7 @@
-#include "StringTree.hpp"
+#pragma once
+
+#include "IDGenerator.cpp"
+#include "typedefs.cpp"
 
 class StringTreeNode {
 public:

@@ -1,4 +1,9 @@
-#include "lexer.hpp"
+#pragma once
+
+#include <vector>
+#include "Token.cpp"
+#include "VStream.cpp"
+#include "typedefs.cpp"
 
 const u8 identifierID = 0;
 const u8 opID = 1;
