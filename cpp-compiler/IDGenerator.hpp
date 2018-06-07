@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "typedefs.cpp"
+#include "typedefs.hpp"
 
 const u32 unusedID = 4294967295;
 class IDGenerator {

@@ -1,8 +1,8 @@
 #include <iostream>
-#include "loadFile.cpp"
-#include "lexer.cpp"
-#include "parser.cpp"
-#include "VStream.cpp"
+#include "loadFile.hpp"
+#include "lexer.hpp"
+#include "parser.hpp"
+#include "VStream.hpp"
 
 void printTokens(const std::vector<Token> *tokens, char *content) { // debugging only
 	printf("length: %i, capacity: %i\n\n", tokens->size(), tokens->capacity());

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <utility>
-#include "typedefs.cpp"
+#include "typedefs.hpp"
 
 template<typename T> class HashMap {
 public:

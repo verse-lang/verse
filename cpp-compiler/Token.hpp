@@ -1,7 +1,7 @@
 #pragma once
 
-#include "typedefs.cpp"
-#include "Match.cpp"
+#include "typedefs.hpp"
+#include "Match.hpp"
 
 class Token : public Match {
 public:

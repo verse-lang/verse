@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Token.cpp"
+#include "Token.hpp"
 
 void parser(std::vector<Token> tokens, char *content) {
 

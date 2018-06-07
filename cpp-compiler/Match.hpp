@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedefs.cpp"
+#include "typedefs.hpp"
 
 class Match {
 public:

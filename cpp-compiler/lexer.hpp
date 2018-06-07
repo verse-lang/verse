@@ -1,9 +1,9 @@
 #pragma once
 
 #include <vector>
-#include "Token.cpp"
-#include "VStream.cpp"
-#include "typedefs.cpp"
+#include "Token.hpp"
+#include "VStream.hpp"
+#include "typedefs.hpp"
 
 const u8 identifierID = 0;
 const u8 opID = 1;

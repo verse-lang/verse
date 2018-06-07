@@ -1,8 +1,9 @@
 #pragma once
 
-#include "IDGenerator.cpp"
-#include "typedefs.cpp"
+#include "IDGenerator.hpp"
+#include "typedefs.hpp"
 
+const u8 tempMidpoint = 76;
 class StringTreeNode {
 public:
 	StringTreeNode * left;
