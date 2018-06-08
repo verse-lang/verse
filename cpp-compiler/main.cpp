@@ -33,6 +33,10 @@ int main(const int argc, const char *argv[]) {
 
 	const VStream stream = { content, (u32)size, 0 };
 	const std::vector<Token> tokens = lexer(stream);
+	if (tokens.empty()) {
+		system("pause");
+		exit(1);
+	}
 	printTokens(&tokens, content);
 
 	parser(tokens, content);

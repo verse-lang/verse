@@ -114,7 +114,6 @@ std::vector<Token> lexer(VStream stream) {
 		}
 		else if (text[i] == ' ') { // skip
 			++i;
-			//--tokens.length;
 			tokens.pop_back();
 			continue;
 		}
@@ -146,7 +145,6 @@ std::vector<Token> lexer(VStream stream) {
 			end = i;
 		}
 		else if ((end = comment(text, i)) != i) { // skip
-			//--tokens.length;
 			tokens.pop_back();
 			continue;
 		}
@@ -154,16 +152,15 @@ std::vector<Token> lexer(VStream stream) {
 			current->id = chrID;
 		}
 		else if (text[i] == '\0') {
-			//--tokens.length;
 			tokens.pop_back();
 			return tokens;
 		}
 		else {
 			printf("Lexer error, unrecognized token: Line %i, character %i.\n", row, i - lineStart);
-			//--tokens.length;
+			puts("Please keep in mind those line and character numbers are 0 indexed.");
+			puts("Your text editor most likely indexes from 1.");
 			tokens.pop_back();
-			//tokens.print((char*)text);
-			//tokens.length = 0;
+			tokens.clear();
 			return tokens;
 		}
 		current->end = end;
