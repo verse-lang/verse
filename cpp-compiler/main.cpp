@@ -7,11 +7,8 @@
 void printTokens(const std::vector<Token> *tokens, char *content) { // debugging only
 	printf("length: %i, capacity: %i\n\n", tokens->size(), tokens->capacity());
 	for (u32 n = 0; n < tokens->size(); n++) {
-		const Token cur = (*tokens)[n];
-		const char c = content[cur.end];
-		content[cur.end] = '\0';
-		printf("%i, `%s`\n", cur.id, content + cur.begin * sizeof(char));
-		content[cur.end] = c;
+		Token cur = (*tokens)[n];
+		printf("%i, `%s`\n", cur.id, cur.getText(content));
 	}
 }
 
@@ -38,6 +35,7 @@ int main(const int argc, const char *argv[]) {
 		exit(1);
 	}
 	printTokens(&tokens, content);
+	system("pause");
 
 	parser(tokens, content);
 	system("pause");

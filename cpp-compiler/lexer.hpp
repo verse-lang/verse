@@ -13,6 +13,7 @@ const u8 numberID = 4;
 const u8 stringID = 5;
 const u8 groupCharID = 6;
 const u8 chrID = 7;
+const u8 eofID = 8;
 
 u32 identifier(const char *text, u32 i) {
 	char c = text[i];
@@ -152,14 +153,17 @@ std::vector<Token> lexer(VStream stream) {
 			current->id = chrID;
 		}
 		else if (text[i] == '\0') {
-			tokens.pop_back();
+			//tokens.pop_back();
+			current->id = eofID;
+			current->begin = i;
+			current->end = i;
 			return tokens;
 		}
 		else {
 			printf("Lexer error, unrecognized token: Line %i, character %i.\n", row, i - lineStart);
 			puts("Please keep in mind those line and character numbers are 0 indexed.");
 			puts("Your text editor most likely indexes from 1.");
-			tokens.pop_back();
+			//tokens.pop_back();
 			tokens.clear();
 			return tokens;
 		}
