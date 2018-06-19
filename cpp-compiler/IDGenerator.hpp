@@ -3,21 +3,21 @@
 #include <iostream>
 #include "typedefs.hpp"
 
-const u32 unusedID = 4294967295;
+const u32 unusedID = ~((u32)0);
 class IDGenerator {
 public:
 	u32 step;
 	u32 maxIndex;
 	u32 index;
 	IDGenerator() {
-		step = 2147483647;
+		step = unusedID / 2;
 		maxIndex = 1;
 		index = 0;
 	}
 	u32 next() {
 		if (index >= maxIndex) {
 			if (step == 1) {
-				printf("out of possible ids\n");
+				puts("out of possible ids");
 				exit(1);
 			}
 			step /= 2;

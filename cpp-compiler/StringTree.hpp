@@ -18,11 +18,8 @@ public:
 
 class StringTree {
 public:
-	IDGenerator *idGenerator;
+	IDGenerator idGenerator;
 	StringTreeNode root;
-	StringTree(IDGenerator *_idGenerator) {
-		idGenerator = _idGenerator;
-	}
 	u32 label(String string) {
 		StringTreeNode *cur = &root;
 		for (u32 i = 0; i < string.length - 1; ++i) {
@@ -37,7 +34,7 @@ public:
 				return pair.second;
 			}
 		}
-		u32 id = idGenerator->next();
+		u32 id = idGenerator.next();
 		strs.push_back(std::pair<char*, u32>(string.content, id));
 		return id;
 	}

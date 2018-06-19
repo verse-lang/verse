@@ -2,50 +2,57 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "Token.hpp"
 #include "StringTree.hpp"
+#include "NamedValue.hpp"
 
 u32 skipLine(std::vector<Token> tokens, char *content, u32 i) { // debugging only
 	while (tokens[i].id != eolID && tokens[i].id != eofID) ++i;
-	if (tokens[i].id == eolID) ++i;
+	while (tokens[i].id == eolID) ++i;
 	return i;
+}
+
+Type readType(std::vector<Token> tokens, char *content, u32 i) {
+	Type cur;
+	return cur;
 }
 
 u32 readIf(std::vector<Token> tokens, char *content, u32 i) {
 	puts("if!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readElif(std::vector<Token> tokens, char *content, u32 i) {
 	puts("elif!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readWhile(std::vector<Token> tokens, char *content, u32 i) {
 	puts("while!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readClass(std::vector<Token> tokens, char *content, u32 i) {
 	puts("class!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readImport(std::vector<Token> tokens, char *content, u32 i) {
 	puts("import!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readFunction(std::vector<Token> tokens, char *content, u32 i) {
 	puts("function!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readTypedFunction(std::vector<Token> tokens, char *content, u32 i) {
 	puts("typed function!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readVariable(std::vector<Token> tokens, char *content, u32 i) {
 	puts("variable!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 u32 readFullExpression(std::vector<Token> tokens, char *content, u32 i) {
 	puts("expression!");
-	return skipLine(tokens, content, i); // debugging only
+	return 0;
 }
 
 void parser(std::vector<Token> tokens, char *content) {
@@ -58,19 +65,18 @@ void parser(std::vector<Token> tokens, char *content) {
 		}
 		Token cur = tokens[i];
 		if (cur.id != eolID) {
-			for (u32 diff = prevIndent - indent; diff > 0; --diff) {
-				// close current scope
+			for (int diff = prevIndent - indent; diff > 0; --diff) {
+				puts("closing scope");
 			}
 		}
 		prevIndent = indent;
-
-		printf("cur token content: `%s`\n", cur.getText(content)); // debug
 
 		u32 (*reader)(std::vector<Token>, char*, u32) = nullptr;
 		if (cur.id == identifierID) {
 			std::string text = std::string(cur.getText(content));
 			char c = text[0];
 			if (c >= 'A' && c <= 'Z') {
+				//Type type = readType(tokens, content, i);
 				if (tokens[i + 1].id == identifierID) {
 					Token token3 = tokens[i + 2];
 					std::string text3 = std::string(token3.getText(content));
@@ -115,7 +121,8 @@ void parser(std::vector<Token> tokens, char *content) {
 			reader = readFullExpression;
 		}
 		if (reader != nullptr) {
-			i = reader(tokens, content, i);
+			reader(tokens, content, i);
+			i = skipLine(tokens, content, i); // debugging
 		}
 		else {
 			// TODO: line and character numbers.

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Class.hpp"
+
 enum NamedValueE {
 	FunctionE,
 	VariableE,
@@ -24,4 +26,7 @@ public:
 class Type : NamedValue {
 public:
 	const NamedValueE type = TypeE;
+	u32 id;
+	bool builtIn;
+	Class *source;
 };

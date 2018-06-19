@@ -4,6 +4,11 @@
 #include "parser.hpp"
 #include "VStream.hpp"
 
+void wait() {
+	puts("press any key to continue...");
+	getchar();
+}
+
 void printTokens(const std::vector<Token> *tokens, char *content) { // debugging only
 	printf("length: %i, capacity: %i\n\n", tokens->size(), tokens->capacity());
 	for (u32 n = 0; n < tokens->size(); n++) {
@@ -15,7 +20,7 @@ void printTokens(const std::vector<Token> *tokens, char *content) { // debugging
 int main(const int argc, const char *argv[]) {
 	if (argc < 2) {
 		puts("You must supply a filename to compile.\n");
-		system("pause");
+		wait();
 		return 1;
 	}
 	printf("argc: %i, filename: %s\n", argc, argv[1]);
@@ -23,7 +28,7 @@ int main(const int argc, const char *argv[]) {
 	int size = loadFile(argv[1], &content);
 	if (size < 0) {
 		printf("Error loading file, size: %i\n", size);
-		system("pause");
+		wait();
 		return size;
 	}
 	printf("%s\n", content);
@@ -31,13 +36,13 @@ int main(const int argc, const char *argv[]) {
 	const VStream stream = { content, (u32)size, 0 };
 	const std::vector<Token> tokens = lexer(stream);
 	if (tokens.empty()) {
-		system("pause");
+		wait();
 		exit(1);
 	}
 	printTokens(&tokens, content);
-	system("pause");
+	wait();
 
 	parser(tokens, content);
-	system("pause");
+	wait();
 	return 0;
 }
