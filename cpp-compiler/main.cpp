@@ -4,11 +4,6 @@
 #include "parser.hpp"
 #include "VStream.hpp"
 
-void wait() {
-	puts("press any key to continue...");
-	getchar();
-}
-
 void printTokens(const std::vector<Token> *tokens, char *content) { // debugging only
 	printf("length: %i, capacity: %i\n\n", tokens->size(), tokens->capacity());
 	for (u32 n = 0; n < tokens->size(); n++) {

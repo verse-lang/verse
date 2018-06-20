@@ -142,7 +142,7 @@ patterns: [
 		include: "#type"
 	}
 	{ # keyword
-		match: "\\b(?:if|elif|else|while|for|new|delete|return)\\b"
+		match: "\\b(?:if|elif|else|while|for|new|delete|return|import|break|continue)\\b"
 		name: "keyword.control.verse"
 	}
 	{ # variable
