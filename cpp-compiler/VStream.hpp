@@ -3,7 +3,7 @@
 #include "typedefs.hpp"
 
 struct VStream {
-	char *content;
+	u8 *content;
 	u32 length;
 	u32 index;
 };

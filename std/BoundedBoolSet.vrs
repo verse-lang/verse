@@ -2,14 +2,14 @@ import Array
 import ceil from "std/math.vrs"
 
 class BoundedBoolSet U32 size|
-	Array data: new Array(ceil(size / 8.0))
-	add => U32 index
+	Array<U8> data: new Array<U8>(ceil(size / 8.0))
+	add U32 index
 		data[index / 8] |= 1 << (index % 8)
-	remove => U32 index
+	remove U32 index
 		data[index / 8] &= ~(1 << (index % 8))
-	Bool has => U32 index
-		data[index / 8] >> (index % 8) & 1
-	U32 findEmpty =>
+	has U32 index => Bool
+		return data[index / 8] >> (index % 8) & 1
+	findEmpty => U32
 		U16 n = 0
 		U8 extra = data.length * 8 - data.length
 		while n < data.length - 1

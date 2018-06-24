@@ -1,16 +1,20 @@
+#include <limits.h>
 #include <iostream>
 #include "loadFile.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "VStream.hpp"
+#include "StringTree.hpp"
 
-void printTokens(const std::vector<Token> *tokens, char *content) { // debugging only
+void printTokens(const std::vector<Token> *tokens, u8 *content) { // debugging only
 	printf("length: %i, capacity: %i\n\n", tokens->size(), tokens->capacity());
 	for (u32 n = 0; n < tokens->size(); n++) {
 		Token cur = (*tokens)[n];
-		printf("%i, `%s`\n", cur.id, cur.getText(content));
+		printf("%i, `%s`\n", cur.id, (char*)cur.getText(content));
 	}
 }
+
+StringTree::Tree stringTree;
 
 int main(const int argc, const char *argv[]) {
 	if (argc < 2) {
@@ -19,8 +23,8 @@ int main(const int argc, const char *argv[]) {
 		return 1;
 	}
 	printf("argc: %i, filename: %s\n", argc, argv[1]);
-	char *content;
-	int size = loadFile(argv[1], &content);
+	u8 *content;
+	int size = loadFile(argv[1], (char**)&content);
 	if (size < 0) {
 		printf("Error loading file, size: %i\n", size);
 		wait();
@@ -35,7 +39,6 @@ int main(const int argc, const char *argv[]) {
 		exit(1);
 	}
 	printTokens(&tokens, content);
-	wait();
 
 	parser(tokens, content);
 	wait();

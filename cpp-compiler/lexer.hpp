@@ -15,8 +15,8 @@ const u8 groupCharID = 6;
 const u8 chrID = 7;
 const u8 eofID = 8;
 
-u32 identifier(const char *text, u32 i) {
-	char c = text[i];
+u32 identifier(const u8 *text, u32 i) {
+	u8 c = text[i];
 	if (c >= 'a' && c <= 'z' ||
 		c >= 'A' && c <= 'Z')
 		do c = text[++i];
@@ -25,16 +25,16 @@ u32 identifier(const char *text, u32 i) {
 		c >= '0' && c <= '9');
 	return i;
 }
-u32 op(const char *text, u32 i) {
-	char c = text[i];
+u32 op(const u8 *text, u32 i) {
+	u8 c = text[i];
 	while (c == '!' || c >= '#' && c <= '&' || c >= '*' && c <= '/' ||
 		c >= ':' && c <= '@' || c == '^' || c == '_' || c == '|' ||
 		c == '~') c = text[++i];
 	return i;
 }
-u32 number(const char *text, u32 i) {
+u32 number(const u8 *text, u32 i) {
 	const u32 start = i;
-	char c = text[i];
+	u8 c = text[i];
 	if (c >= '0' && c <= '9') {
 		do c = text[++i]; while (c >= '0' && c <= '9');
 		if (text[i] == '.') {
@@ -50,9 +50,9 @@ u32 number(const char *text, u32 i) {
 	}
 	return i;
 }
-u32 string(const char *text, u32 i) {
+u32 string(const u8 *text, u32 i) {
 	const u32 start = i;
-	char c = text[i];
+	u8 c = text[i];
 	if (c == '"') {
 		while (true) {
 			c = text[++i];
@@ -74,19 +74,19 @@ u32 string(const char *text, u32 i) {
 	}
 	return i;
 }
-bool groupChar(const char c) {
+bool groupChar(const u8 c) {
 	return c == '(' || c == ')' || c == '[' || c == ']' || c == '{' ||
 		c == '}';
 }
-u32 comment(const char *text, u32 i) {
-	char c = text[i];
+u32 comment(const u8 *text, u32 i) {
+	u8 c = text[i];
 	if (c == '/' && text[i + 1] == c) {
 		++i;
 		do c = text[++i]; while (c != '\n' && c != '\0');
 	}
 	return i;
 }
-u32 chr(const char *text, u32 i) {
+u32 chr(const u8 *text, u32 i) {
 	const u32 start = i;
 	if (text[i] == '\'') {
 		if (text[++i] == '\\') ++i;
@@ -100,7 +100,7 @@ u32 chr(const char *text, u32 i) {
 }
 
 std::vector<Token> lexer(VStream stream) {
-	const char *text = stream.content;
+	const u8 *text = stream.content;
 	u32 row = 0;
 	u32 lineStart = 0;
 	u32 i = stream.index;
@@ -128,7 +128,7 @@ std::vector<Token> lexer(VStream stream) {
 		}
 		else if (text[i] == '\n' || text[i] == '\r') {
 			current->id = eolID;
-			char c;
+			u8 c;
 			do c = text[++i]; while (c == '\n' || c == 'r');
 			end = i;
 			lineStart = end;

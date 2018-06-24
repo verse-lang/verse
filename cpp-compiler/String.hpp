@@ -5,20 +5,20 @@
 
 class String {
 public:
-	char *content;
+	u8 *content;
 	u32 length;
-	String(char *_content, u32 _length) {
+	String(u8 *_content, u32 _length) {
 		content = _content;
 		length = _length;
 	}
-	String(char *_content) {
+	String(u8 *_content) {
 		content = _content;
-		length = strlen(_content);
+		length = strlen((char*)_content);
 	}
-	char &operator[](u32 index) {
+	u8 &operator[](u32 index) {
 		return content[index];
 	}
-	bool const &operator==(char *cstr) {
+	bool const &operator==(u8 *cstr) {
 		u32 i;
 		for (i = 0; i < length; ++i) {
 			if (content[i] != cstr[i]) {
@@ -27,7 +27,7 @@ public:
 		}
 		return cstr[i] == '0';
 	}
-	bool const &operator!=(char *cstr) {
+	bool const &operator!=(u8 *cstr) {
 		return !(*this == cstr);
 	}
 };

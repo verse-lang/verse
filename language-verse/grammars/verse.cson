@@ -12,25 +12,22 @@ repository:
 			0:
 				name: "storage.type.verse"
 	}
+	typeAndIdentifier: {
+		match: "([A-Z][a-zA-Z0-9]*) ([a-z][a-zA-Z0-9]*)"
+		captures:
+			1:
+				name: "storage.type.verse"
+			2:
+				name: "variable.parameter.verse"
+	}
 patterns: [
 	{ # single line comment
 		begin: "//"
 		end: "\n"
 		name: "comment.line.verse"
 	}
-	{ # string literal
-		begin: "\""
-		end: "\""
-		patterns: [
-			{
-				match: "\\\\."
-				name: "constant.character.escape.verse"
-			}
-		]
-		name: "string.quoted.double.verse"
-	}
 	{ # character literal
-		match: "\\\'(\\\\.)|.\\\'"
+		match: "'(?:(\\\\.)|.)'"
 		captures:
 			0:
 				name: "string.quoted.single.verse"
@@ -94,18 +91,26 @@ patterns: [
 				name: "entity.name.type.verse"
 	}
 	{ # class declaration
-		match: "(class) ([A-Z][a-zA-Z0-9]*)(?:(<)([A-Z][a-zA-Z0-9]*(?: [A-Z][a-zA-Z0-9]*)*)(>))?"
-		captures:
+		begin: "(class) ([A-Z][a-zA-Z0-9]*)(<?)"
+		beginCaptures:
 			1:
 				name: "keyword.control.verse"
 			2:
 				name: "entity.name.type.verse"
 			3:
 				name: "keyword.operator.verse"
-			4:
-				name: "storage.type.verse"
-			5:
-				name: "keyword.operator.verse"
+		end: "\n"
+		patterns: [
+			{
+				include: "#type"
+			}
+			{
+				match: "\\||<|>"
+				captures:
+					0:
+						name: "keyword.operator.verse"
+			}
+		]
 		name: "meta.classDec.verse"
 	}
 	{ # operator overload
@@ -132,6 +137,48 @@ patterns: [
 			2:
 				name: "keyword.control.verse"
 	}
+	{ # func declaration
+		begin: "(func) ([a-z][a-zA-Z0-9]*)"
+		beginCaptures:
+			1:
+				name: "keyword.control.verse"
+			2:
+				name: "entity.name.function"
+		end: "=>|\n"
+		endCaptures:
+			0:
+				name: "keyword.control.verse"
+		patterns: [
+			{
+				include: "#typeAndIdentifier"
+			}
+		]
+	}
+	{ # keyword
+		match: "\\b(?:if|elif|else|while|for|new|delete|return|import|break|continue)\\b"
+		name: "keyword.control.verse"
+	}
+	{ # function declaration (2) with return type
+		begin: "([a-z][a-zA-Z0-9]*) (?=[A-Z]|->)" # (?!import\\b)
+		beginCaptures:
+			1:
+				name: "entity.name.function"
+		end: "=>|\n"
+		endCaptures:
+			0:
+				name: "keyword.control.verse"
+		patterns: [
+			{
+				include: "#typeAndIdentifier"
+			}
+		]
+	}
+	{ # function declaration (2) without args and without return type
+		match: "(?<!\t)(\t*)((?<![a-zA-Z0-9])[a-z][a-zA-Z0-9]*)\n(\\0\t)(?!\t)"
+		captures:
+			2:
+				name: "entity.name.function"
+	}
 	{ # function call
 		match: "([a-z][a-zA-Z0-9]*)\\("
 		captures:
@@ -140,10 +187,6 @@ patterns: [
 	}
 	{ # type
 		include: "#type"
-	}
-	{ # keyword
-		match: "\\b(?:if|elif|else|while|for|new|delete|return|import|break|continue)\\b"
-		name: "keyword.control.verse"
 	}
 	{ # variable
 		include: "#variable"
