@@ -4,8 +4,7 @@
 
 int loadFile(const char *filename, char **result) {
 	int size;
-	FILE *file;
-	fopen_s(&file, filename, "rb");
+	FILE *file = fopen(filename, "rb");
 	if (file == nullptr) {
 		*result = nullptr;
 		return -1;

@@ -7,7 +7,7 @@
 #include "StringTree.hpp"
 
 void printTokens(const std::vector<Token> *tokens, u8 *content) { // debugging only
-	printf("length: %i, capacity: %i\n\n", tokens->size(), tokens->capacity());
+	printf("length: %lu, capacity: %lu\n\n", tokens->size(), tokens->capacity());
 	for (u32 n = 0; n < tokens->size(); n++) {
 		Token cur = (*tokens)[n];
 		printf("%i, `%s`\n", cur.id, (char*)cur.getText(content));

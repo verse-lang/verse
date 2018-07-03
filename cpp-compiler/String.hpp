@@ -18,7 +18,7 @@ public:
 	u8 &operator[](u32 index) {
 		return content[index];
 	}
-	bool const &operator==(u8 *cstr) {
+	bool const operator==(u8 *cstr) {
 		u32 i;
 		for (i = 0; i < length; ++i) {
 			if (content[i] != cstr[i]) {
@@ -27,7 +27,7 @@ public:
 		}
 		return cstr[i] == '0';
 	}
-	bool const &operator!=(u8 *cstr) {
+	bool const operator!=(u8 *cstr) {
 		return !(*this == cstr);
 	}
 };
