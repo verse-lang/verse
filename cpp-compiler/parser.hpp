@@ -19,7 +19,7 @@ bool u8cmp(u8 *left, const char *right) {
 }
 
 void wait() {
-	printf("press any key to continue...");
+	printf("press ENTER to continue...");
 	getchar();
 	printf("\n");
 }
@@ -121,9 +121,9 @@ void parser(std::vector<Token> tokens, u8 *content) {
 					Token token3 = tokens[i + 2];
 					u8 *text3 = token3.getText(content);
 					if (u8cmp(text3, "=>")) reader = readTypedFunction;
-					else if (u8cmp(text3, "=") || u8cmp(text3, ":") || token3.id == eolID) {
-						reader = readVariable;
-					}
+					else if (u8cmp(text3, "=") ||
+						u8cmp(text3, ":") ||
+						token3.id == eolID) reader = readVariable;
 					else puts("Expected function or variable declaration.");
 					delete text3;
 				}
@@ -160,8 +160,11 @@ void parser(std::vector<Token> tokens, u8 *content) {
 			}
 			else {
 				Token second = tokens[i + 1];
-				u8* text2 = second.getText(content);
-				if (u8cmp(text2, "=>")) reader = readFunction;
+				u8 *text2 = second.getText(content);
+				u8 firstChar = text2[0];
+				if (u8cmp(text2, "=>") ||
+					(firstChar >= 'A' && firstChar <= 'Z') ||
+					second.id == eolID) reader = readFunction;
 				else reader = readFullExpression;
 				delete text2;
 			}

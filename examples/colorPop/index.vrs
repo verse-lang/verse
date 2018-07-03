@@ -1,35 +1,35 @@
-import math from "std"
-import "DOM"
+import math
+import dom
 
 #U32 s = 1
 #F32 clrOff = 0.05
 
-HTMLCanvasElement canvas
-u16 cols
-u16 rows
-CanvasRenderingContext2D ctx
-U8[] filled = null
-Block[] list = null
+dom::HTMLCanvasElement canvas
+U16 cols
+U16 rows
+dom::CanvasRenderingContext2D ctx
+Array<U8> filled
+Array<Block> list
 F32 nodeProg = 0.0
 Bool mousePressed = false
-document = new Page()
+document = new dom::Page()
 
 struct Block
-	u16 x y
-	u8 r g b
-T rand => max
+	U16 x y
+	U8 r g b
+rand<T> T max => T
 	math.random() * max | 0
-T clamp => v min max
-	v < min ? min : (v > max ? max : v)
-F32 srgbToLinear => c
+clamp<T> T v min max => T
+	return v < min ? min : (v > max ? max : v)
+srgbToLinear F32 c => F32
 	c > 0.04045 ? math.pow((c + 0.055) / (1 + 0.055), 2.4) : c / 12.92
-F32 linearToSrgb => c
+linearToSrgb F32 c => F32
 	c > 0.0031308 ? (1 + 0.055) * Math.pow(c, 1 / 2.4) - 0.055 : 12.92 * c
-U8 adjustColor => cc
-	#variance = math.random() * clrOff * 2 - clrOff
-	#newC = linearToSrgb(srgbToLinear(cc / 255.0) + variance)
-	clamp(math.round(newC * 255), 0, 255)
-addNode => Block a
+adjustColor U8 cc => U8
+	#F32 variance = math.random() * clrOff * 2 - clrOff
+	#F32 newC = linearToSrgb(srgbToLinear(cc / 255.0) + variance)
+	clamp<F32>(math.round(newC * 255), 0, 255)
+addNode Block a
 	if a.x < 0 || a.x >= cols || a.y < 0 || a.y >= rows
 		return
 	#U32 index = a.x + a.y * cols
@@ -38,7 +38,7 @@ addNode => Block a
 	if filled[byte] >> bit & 1 == 0
 		list.add(a)
 		filled[byte] |= 1 << bit
-fillNode => Block a
+fillNode Block a
 	#U8 nr = adjustColor(a.r)
 	#U8 ng = adjustColor(a.g)
 	#U8 nb = adjustColor(a.b)
@@ -49,11 +49,11 @@ fillNode => Block a
 	addNode(a.x, a.y + 1, nr, ng, nb)
 	addNode(a.x - 1, a.y, nr, ng, nb)
 	list.remove(a)
-loop =>
+loop
 	if list.length != 0
 		step()
-	requestAnimationFrame(loop)
-step +>
+	dom::requestAnimationFrame(loop)
+step
 	nodeProg += list.length / math.tau
 	while nodeProg > 1 && list.length > 0
 		nodeProg--
@@ -63,25 +63,24 @@ step +>
 		while list.used.has(index) != 1
 			index = rand(list.size)
 		fillNode(list[index])
-addFromEvent => Event evt
+addFromEvent dom::Event evt
 	addNode(evt.clientX, evt.clientY, rand(256), rand(256), rand(256))
-mouseMove => Event evt
+mouseMove dom::Event evt
 	if mousePressed
 		addFromEvent(evt)
-mouseDown => Event evt
+mouseDown dom::Event evt
 	addFromEvent(evt)
 	mousePressed = true
-mouseUp => Event evt
+mouseUp dom::Event evt
 	mousePressed = false
-init +>
-	canvas = document.getElementById("canvas")
-	cols = math.ceil((canvas.width = innerWidth) / s)
-	rows = math.ceil((canvas.height = innerHeight) / s)
+init
+	canvas = dom::canvas
+	cols = math::ceil((canvas.width = innerWidth) / s)
+	rows = math::ceil((canvas.height = innerHeight) / s)
 	ctx = canvas.getContext("2d")
 	canvas.addEventListener("mousemove", mouseMove)
 	canvas.addEventListener("mousedown", mouseDown)
 	window.addEventListener("mouseup", mouseUp)
-	filled = new u8[math.ceil(cols * rows / 8.0)]
-	requestAnimationFrame(loop)
-
-document.addEventListener("DOMContentLoaded", init)
+	filled = new Array<U8>(math::ceil(cols * rows / 8.0))
+	dom::requestAnimationFrame(loop)
+document.listen(dom::event::DOMContentLoaded, init)
