@@ -20,7 +20,6 @@ bool u8cmp(u8 *left, const char *right) {
 
 u32 skipLine(std::vector<Token> tokens, u8 *content, u32 i) { // debugging only
 	while (tokens[i].id != eolID && tokens[i].id != eofID) ++i;
-	while (tokens[i].id == eolID) ++i;
 	return i;
 }
 
@@ -83,27 +82,33 @@ u32 readFullExpression(std::vector<Token> tokens, u8 *content, u32 i) {
 }
 
 void parser(std::vector<Token> tokens, u8 *content) {
+	u32 lineNumber = 0;
+	u32 lineCharacter = 0;
 	u16 prevIndent = 0;
 	for (u32 i = 0; i < tokens.size() && tokens[i].id != eofID;) {
 		Token cur = tokens[i];
 		u16 indent = 0;
-		if (cur.id == indentID) {
-			indent = cur.end - cur.begin;
-			cur = tokens[++i];
+		for (;true;++i) {
+			if (tokens[i].id == eolID) {
+				printf("eol token x%u\n", tokens[i].end - tokens[i].begin);
+				lineNumber += tokens[i].end - tokens[i].begin;
+			} else if (tokens[i].id == indentID) {
+				indent = tokens[i].end - tokens[i].begin;
+			} else break;
 		}
-		if (cur.id != eolID) {
-			if ((int)indent - (int)prevIndent > 1) {
-				puts("May not indent more than once!");
-				wait();
-				exit(1);
-			}
-			if (indent < prevIndent) {
-				for (int diff = prevIndent - indent; diff > 0; --diff) {
-					// close current scope
-				}
+		cur = tokens[i];
+		if ((int)indent - (int)prevIndent > 1) {
+			puts("May not indent more than once!");
+			wait();
+			exit(1);
+		}
+		if (indent < prevIndent) {
+			for (int diff = prevIndent - indent; diff > 0; --diff) {
+				// close current scope
 			}
 		}
 		prevIndent = indent;
+		lineCharacter = tokens[i].begin - indent;
 
 		u32 (*reader)(std::vector<Token>, u8*, u32) = nullptr;
 		if (cur.id == identifierID) {
@@ -180,8 +185,10 @@ void parser(std::vector<Token> tokens, u8 *content) {
 			i = skipLine(tokens, content, i); // debugging
 		}
 		else {
-			// TODO: line and u8acter numbers.
-			puts("Parsing error! (at some line and some character, sorry.)");
+			printf("Parsing error! At line: %u, and character: %u. (zero indexed)\n",
+				lineNumber, tokens[i].begin - lineCharacter);
+			//printf("lineCharacter: %u, cur character: %u\n", lineCharacter, tokens[i].begin);
+			//printf("%u, %i, `%s`\n", cur.begin, cur.id, (char*)cur.getText(content));
 			wait();
 			exit(1);
 		}
