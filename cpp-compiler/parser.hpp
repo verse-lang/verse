@@ -18,12 +18,6 @@ bool u8cmp(u8 *left, const char *right) {
 	return false;
 }
 
-void wait() {
-	printf("press ENTER to continue...");
-	getchar();
-	printf("\n");
-}
-
 u32 skipLine(std::vector<Token> tokens, u8 *content, u32 i) { // debugging only
 	while (tokens[i].id != eolID && tokens[i].id != eofID) ++i;
 	while (tokens[i].id == eolID) ++i;
@@ -116,7 +110,7 @@ void parser(std::vector<Token> tokens, u8 *content) {
 			u8 *text = cur.getText(content);
 			u8 c = text[0];
 			if (c >= 'A' && c <= 'Z') {
-				//Type type = readType(tokens, content, i);
+				//Type type = readType(tokens, content, &i);
 				if (tokens[i + 1].id == identifierID) {
 					Token token3 = tokens[i + 2];
 					u8 *text3 = token3.getText(content);

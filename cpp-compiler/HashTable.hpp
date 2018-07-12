@@ -16,7 +16,7 @@ public:
 
 template<typename T> class HashTable {
 public:
-	TableNode *data;
+	TableNode<T> *data;
 	u32 length;
 	u32 size;
 	HashTable() {

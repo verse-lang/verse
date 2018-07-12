@@ -1,11 +1,9 @@
 #pragma once
 
-#include "StringTree.hpp"
-#include "HashMap.hpp"
+//#include "HashTable.hpp"
 #include "NamedValue.hpp"
 
 class Scope {
 public:
-	StringTree strings;
-	HashMap<NamedValue> map;
+	//HashTable<NamedValue> map;
 };

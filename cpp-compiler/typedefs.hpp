@@ -7,3 +7,9 @@ typedef uint16_t u16;
 typedef uint8_t u8;
 
 typedef float f32;
+
+void wait() {
+	printf("press ENTER to continue...");
+	getchar();
+	printf("\n");
+}

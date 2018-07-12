@@ -99,11 +99,10 @@ u32 chr(const u8 *text, u32 i) {
 	return i;
 }
 
-std::vector<Token> lexer(VStream stream) {
-	const u8 *text = stream.content;
+std::vector<Token> lexer(u8 *text) {
 	u32 row = 0;
 	u32 lineStart = 0;
-	u32 i = stream.index;
+	u32 i = 0;
 	std::vector<Token> tokens(0);
 	while (true) {
 		tokens.push_back(Token());

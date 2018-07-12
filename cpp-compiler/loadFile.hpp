@@ -1,10 +1,11 @@
 #pragma once
 
 #include <iostream>
+#include "typedefs.hpp"
 
-int loadFile(const char *filename, char **result) {
+int loadFile(u8 *filename, u8 **result) {
 	int size;
-	FILE *file = fopen(filename, "rb");
+	FILE *file = fopen((char*)filename, "rb");
 	if (file == nullptr) {
 		*result = nullptr;
 		return -1;
@@ -12,7 +13,7 @@ int loadFile(const char *filename, char **result) {
 	fseek(file, 0, SEEK_END);
 	size = ftell(file);
 	fseek(file, 0, SEEK_SET);
-	*result = new char[size + 1];
+	*result = (u8*)(new char[size + 1]);
 	if (size != fread(*result, sizeof(char), size, file)) {
 		delete *result;
 		return -2;
