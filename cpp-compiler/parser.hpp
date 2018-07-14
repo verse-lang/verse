@@ -25,7 +25,7 @@ u32 skipLine(std::vector<Token> tokens, u8 *content, u32 i) { // debugging only
 
 Type readType(std::vector<Token> tokens, u8 *content, u32 i) {
 	Type cur;
-	
+
 	return cur;
 }
 
@@ -91,20 +91,18 @@ void parser(std::vector<Token> tokens, u8 *content) {
 		u16 indent = 0;
 		for (;true;++i) {
 			if (tokens[i].id == eolID) {
-				printf("eol token x%u\n", tokens[i].end - tokens[i].begin);
 				lineNumber += tokens[i].end - tokens[i].begin;
 			} else if (tokens[i].id == indentID) {
 				indent = tokens[i].end - tokens[i].begin;
 			} else break;
 		}
-		cur = tokens[i];
-		if ((int)indent - (int)prevIndent > 1) {
+		if ((i32)indent - (i32)prevIndent > 1) {
 			puts("May not indent more than once!");
-			wait();
-			exit(1);
+			--i;
 		}
+		cur = tokens[i];
 		if (indent < prevIndent) {
-			for (int diff = prevIndent - indent; diff > 0; --diff) {
+			for (i32 diff = prevIndent - indent; diff > 0; --diff) {
 				// close current scope
 			}
 		}
@@ -162,22 +160,14 @@ void parser(std::vector<Token> tokens, u8 *content) {
 				Token second = tokens[i + 1];
 				u8 *text2 = second.getText(content);
 				u8 firstChar = text2[0];
-				if (u8cmp(text2, "=>") ||
-					(firstChar >= 'A' && firstChar <= 'Z') ||
+				if ((firstChar >= 'A' && firstChar <= 'Z') ||
+					u8cmp(text2, "=>") ||
 					second.id == eolID) reader = readFunction;
 				else reader = readFullExpression;
 				delete text2;
 			}
 			delete text;
-		}
-		else if (cur.id == eolID) {
-			++i;
-			continue;
-		}
-		else if (cur.id == eofID) {
-			//if (indent > 0) puts("Unecessary indentation before end of file.")
-			return;
-		} else {
+		} else if (cur.id != indentID) {
 			reader = readFullExpression;
 		}
 		if (reader != nullptr) {
@@ -188,8 +178,6 @@ void parser(std::vector<Token> tokens, u8 *content) {
 		else {
 			printf("Parsing error! At line: %u, and character: %u. (zero indexed)\n",
 				lineNumber, tokens[i].begin - lineCharacter);
-			//printf("lineCharacter: %u, cur character: %u\n", lineCharacter, tokens[i].begin);
-			//printf("%u, %i, `%s`\n", cur.begin, cur.id, (char*)cur.getText(content));
 			wait();
 			exit(1);
 		}

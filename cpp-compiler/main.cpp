@@ -7,7 +7,7 @@
 StringTree::Tree names;
 StringTree::Tree types;
 
-int main(const int argc, const char *argv[]) {
+i32 main(const i32 argc, const char *argv[]) {
 	if (argc < 2) {
 		puts("You must supply a filename to compile.\n");
 		wait();

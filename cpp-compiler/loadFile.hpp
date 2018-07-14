@@ -3,8 +3,8 @@
 #include <iostream>
 #include "typedefs.hpp"
 
-int loadFile(u8 *filename, u8 **result) {
-	int size;
+i32 loadFile(u8 *filename, u8 **result) {
+	i32 size;
 	FILE *file = fopen((char*)filename, "rb");
 	if (file == nullptr) {
 		*result = nullptr;
