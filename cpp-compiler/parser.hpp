@@ -25,6 +25,7 @@ u32 skipLine(std::vector<Token> tokens, u8 *content, u32 i) { // debugging only
 
 Type readType(std::vector<Token> tokens, u8 *content, u32 i) {
 	Type cur;
+	
 	return cur;
 }
 

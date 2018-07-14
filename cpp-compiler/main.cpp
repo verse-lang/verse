@@ -1,13 +1,11 @@
 #include <limits.h>
 #include <iostream>
 #include "loadFile.hpp"
-#include "lexer.hpp"
-#include "parser.hpp"
-#include "VStream.hpp"
 #include "StringTree.hpp"
 #include "File.hpp"
 
-StringTree::Tree stringTree;
+StringTree::Tree names;
+StringTree::Tree types;
 
 int main(const int argc, const char *argv[]) {
 	if (argc < 2) {
@@ -27,7 +25,7 @@ int main(const int argc, const char *argv[]) {
 	}
 	main.printTokens();
 
-	parser(main.tokens, main.source);
+	main.parse();
 	wait();
 	return 0;
 }

@@ -4,6 +4,7 @@
 #include "loadFile.hpp"
 #include "Scope.hpp"
 #include "lexer.hpp"
+#include "parser.hpp"
 
 class File {
 public:
@@ -22,10 +23,12 @@ public:
 	void lex() {
 		tokens = lexer(source);
 	}
+	void parse() {
+		parser(tokens, source);
+	}
 	void printTokens() { // debugging only
 		printf("length: %lu, capacity: %lu\n\n", tokens.size(), tokens.capacity());
-		for (u32 n = 0; n < tokens.size(); n++) {
-			Token cur = tokens[n];
+		for (Token& cur : tokens) {
 			printf("%i, `%s`\n", cur.id, (char*)cur.getText(source));
 		}
 	}
