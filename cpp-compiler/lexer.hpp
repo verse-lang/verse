@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Token.hpp"
-#include "VStream.hpp"
+#include "Stream.hpp"
 #include "typedefs.hpp"
 
 const u8 identifierID = 0;
@@ -152,7 +152,6 @@ std::vector<Token> lexer(u8 *text) {
 			current->id = chrID;
 		}
 		else if (text[i] == '\0') {
-			//tokens.pop_back();
 			current->id = eofID;
 			current->begin = i;
 			current->end = i;
@@ -162,7 +161,6 @@ std::vector<Token> lexer(u8 *text) {
 			printf("Lexer error, unrecognized token: Line %i, character %i.\n", row, i - lineStart);
 			puts("Please keep in mind those line and character numbers are 0 indexed.");
 			puts("Your text editor most likely indexes from 1.");
-			//tokens.pop_back();
 			tokens.clear();
 			return tokens;
 		}

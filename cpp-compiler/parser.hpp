@@ -6,6 +6,8 @@
 #include "Token.hpp"
 #include "StringTree.hpp"
 #include "NamedValue.hpp"
+#include "Scope.hpp"
+#include "File.hpp"
 
 // keywords: if elif while class return break continue import
 
@@ -23,10 +25,9 @@ u32 skipLine(std::vector<Token> tokens, u8 *content, u32 i) { // debugging only
 	return i;
 }
 
-Type readType(std::vector<Token> tokens, u8 *content, u32 i) {
-	Type cur;
+u32 readType(std::vector<Token> tokens, u8 *content, u32 *i) {
 
-	return cur;
+	return 0;
 }
 
 u32 readIf(std::vector<Token> tokens, u8 *content, u32 i) {
@@ -82,7 +83,10 @@ u32 readFullExpression(std::vector<Token> tokens, u8 *content, u32 i) {
 	return 0;
 }
 
-void parser(std::vector<Token> tokens, u8 *content) {
+void parser(File *file) {
+	Scope *global = &(file->global);
+	std::vector<Token> tokens = file->tokens;
+	u8 *content = file->source;
 	u32 lineNumber = 0;
 	u32 lineCharacter = 0;
 	u16 prevIndent = 0;
@@ -114,7 +118,7 @@ void parser(std::vector<Token> tokens, u8 *content) {
 			u8 *text = cur.getText(content);
 			u8 c = text[0];
 			if (c >= 'A' && c <= 'Z') {
-				//Type type = readType(tokens, content, &i);
+				u32 typeNumber = readType(tokens, content, &i);
 				if (tokens[i + 1].id == identifierID) {
 					Token token3 = tokens[i + 2];
 					u8 *text3 = token3.getText(content);
