@@ -1,5 +1,4 @@
-import Array
-import ceil from "std/math.vrs"
+import ceil from std/math.vrs
 
 class BoundedBoolSet U32 size|
 	Array<U8> data: new Array<U8>(ceil(size / 8.0))

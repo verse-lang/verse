@@ -14,18 +14,23 @@ i32 main(const i32 argc, const char *argv[]) {
 		return 1;
 	}
 	printf("argc: %i, filename: %s\n", argc, argv[1]);
-	File main((u8*)argv[1]);
-	printf("%s\n", main.source);
+	File entry((u8*)argv[1]);
+	if (entry.sourceLength < 0) {
+		printf("Error loading file '%s'.\n", argv[1]);
+		wait();
+		exit(1);
+	}
+	printf("%s\n", entry.source);
 
-	main.lex();
-	if (main.tokens.empty()) {
+	entry.lex();
+	if (entry.tokens.empty()) {
 		puts("empty token list");
 		wait();
 		exit(1);
 	}
-	main.printTokens();
+	entry.printTokens();
 
-	main.parse();
+	entry.parse();
 	wait();
 	return 0;
 }

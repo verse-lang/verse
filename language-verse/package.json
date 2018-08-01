@@ -8,10 +8,10 @@
 	"dependencies": {},
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/verse-lang/verse"
 	},
 	"bugs": {
-		"url": ""
+		"url": "https://github.com/verse-lang/verse"
 	},
 	"license": ""
 }

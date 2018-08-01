@@ -44,9 +44,10 @@ public:
 		u32 end = (i + size - 1) & (size - 1);
 		for (; i != end; i = (i + 1) & (size - 1)) {
 			if (data[i].taken == false) {
-				data[i].taken = true;
-				data[i].id = id;
-				data[i].payload = item;
+				data[i] = {true, id, item};
+				// data[i].taken = true;
+				// data[i].id = id;
+				// data[i].payload = item;
 				return;
 			}
 		}
@@ -63,7 +64,7 @@ public:
 		}
 		return node;
 	}
-	/*T remove(u32 id) { // not yet implemented.
+	/*T remove(u32 id) { // not yet supported or implemented.
 		if ((f32)(size - 1) / (f32)length < 0.25) changeSize(size / 2);
 	}*/
 	void changeSize(u32 newSize) {
