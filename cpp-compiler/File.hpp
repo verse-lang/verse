@@ -31,21 +31,17 @@ bool u8cmp(u8 *left, const char *right) {
 	}
 	return false;
 }
-u8 *joinLeft(u8 *left, u8 *right) {
+u8 *joinU8(u8 *left, u8 *right) {
 	u32 leftLen = strlen((char*)left);
 	u32 rightLen = strlen((char*)right);
 	u32 length = leftLen + rightLen + 1;
 	u8 *result = new u8[length];
 	memcpy(result, left, leftLen * sizeof(u8));
 	memcpy(result + leftLen * sizeof(u8), right, rightLen * sizeof(u8));
-	result[length] = '\0';
+	result[length - 1] = '\0';
 	delete left;
 	delete right;
 	return result;
-}
-u32 skipLine(std::vector<Token> tokens, u8 *content, u32 i) { // debugging only
-	while (tokens[i].id != TokenID::eol && tokens[i].id != TokenID::eof) ++i;
-	return i;
 }
 
 class File {
@@ -60,11 +56,15 @@ public:
 	File(u8 *filename) {
 		sourceLength = loadFile(filename, &source);
 	}
-	void printError(const char *errorType) {
+	void printError(const char *errorType, u32 errorLoc) {
 		printf("%s error! At line: %u, and character: %u. (zero indexed)\n",
-			errorType, lineNumber, lineStart);
+			errorType, lineNumber, errorLoc - lineStart);
 		wait();
 		exit(1);
+	}
+	u32 skipLine(u32 i) { // debugging only
+		while (tokens[i].id != TokenID::eol && tokens[i].id != TokenID::eof) ++i;
+		return i;
 	}
 	#include "lex.hpp"
 	#include "parse.hpp"

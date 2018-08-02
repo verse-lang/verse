@@ -5,8 +5,10 @@ void lex() {
 	do {
 		token.begin = i;
 		u8 c = source[i];
-		if (c == ' ') continue; // space
-		else if (isLetterL(c)) { // identifier
+		if (c == ' ') { // space
+			++i;
+			continue;
+		} else if (isLetterL(c)) { // identifier
 			do c = source[++i]; while (isLetterL(c) || isDigit(c));
 			token.id = TokenID::identifier;
 		} else if (isOperator(c)) { // operator
@@ -18,7 +20,8 @@ void lex() {
 		} else if (isGroupDelim(c)) { // group delimiter
 			++i;
 			token.id = TokenID::groupDelim;
-		} else if (source[i] == '\n') { // line terminator
+		} else if (c == '\n') { // line terminator
+			++i;
 			lineStart = i;
 			++lineNumber;
 			token.id = TokenID::eol;
@@ -27,14 +30,14 @@ void lex() {
 			if (source[i] == '.') {
 				if (isDigit(source[++i])) {
 					while (isDigit(source[++i]));
-				}	else {
+				} else {
 					puts("Floating point literals may not end with a decimal point.");
-					printError("Lexer");
+					printError("Lexer", i);
 				}
 			}
 			token.id = TokenID::number;
 		} else if (isLetterU(c)) { // type
-			do c = source[++i]; while (isLetterU(c));
+			do c = source[++i]; while (isLetterL(c) || isLetterU(c) || isDigit(c));
 			token.id = TokenID::type;
 		} else if (c == '\'') { // character literal
 			c = source[++i];
@@ -42,20 +45,19 @@ void lex() {
 			else if (c == '\'') {
 				puts("May not have empty character literal.");
 			} else ++i;
-			if (source[i] == '\'') ++i;
-			else {
+			if (source[i] != '\'') {
 				puts("Missing end of character literal.");
-				printError("Lexer");
-			}
+				printError("Lexer", i);
+			} else ++i;
 			token.id = TokenID::character;
 		} else if (c == '\0') { // end of file
 			token.id = TokenID::eof;
 		} else {
 			puts("Unrecognized character.");
-			printError("Lexer");
+			printError("Lexer", i);
 			tokens.clear();
 		}
 		token.end = i;
 		tokens.push_back(token);
-	} while (c != '\0');
+	} while (token.id != TokenID::eof);
 }

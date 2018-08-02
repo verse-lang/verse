@@ -11,9 +11,9 @@ i32 main(const i32 argc, const char *argv[]) {
 	if (argc < 2) {
 		puts("You must supply a filename to compile.\n");
 		wait();
-		return 1;
+		exit(1);
 	}
-	printf("argc: %i, filename: %s\n", argc, argv[1]);
+	printf("argc: %i, filename: %s\n\n", argc, argv[1]);
 	File entry((u8*)argv[1]);
 	if (entry.sourceLength < 0) {
 		printf("Error loading file '%s'.\n", argv[1]);
