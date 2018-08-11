@@ -1,4 +1,16 @@
-void lex() {
+static inline bool isLetterL(const u8 c) {return c >= 'a' && c <= 'z';}
+static inline bool isLetterU(const u8 c) {return c >= 'A' && c <= 'Z';}
+static inline bool isDigit(const u8 c) {return c >= '0' && c <= '9';}
+static inline bool isOperator(const u8 c) {
+	return c == '!' || c >= '#' && c <= '&' || c >= '*' && c <= '/' ||
+		c >= ':' && c <= '@' || c == '^' || c == '_' || c == '|' ||
+		c == '~';
+}
+static inline bool isGroupDelim(const u8 c) {
+	return c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}';
+}
+
+void File::lex() {
 	u32 i = 0;
 	Token token;
 	u8 c;
