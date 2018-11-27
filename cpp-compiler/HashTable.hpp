@@ -39,7 +39,7 @@ public:
 		exit(1);
 	}
 	void insert(u32 id, T item) {
-		if ((f32)(size + 1) / (f32)length >= 0.7) changeSize(size * 2);
+		if ((f32)(size + 1) / (f32)(++length) >= 0.7) changeSize(size * 2);
 		u32 i = hash(id);
 		u32 end = (i + size - 1) & (size - 1);
 		for (; i != end; i = (i + 1) & (size - 1)) {
