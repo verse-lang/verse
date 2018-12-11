@@ -1,7 +1,7 @@
 class Vec2<T> T x y|
-	Vec2<T> ops ~~ + - / * & | ^ Vec2<T> b
+	ops ~~ + - / * & | ^ Vec2<T> b => Vec2<T>
 		return new Vec2<T>(x ~~ b.x, y ~~ b.y)
-	Vec2<T> ops ~~ + - / * & | ^ Num b
+	ops ~~ + - / * & | ^ Num b => Vec2<T>
 		return new Vec2<T>(x ~~ b, y ~~ b)
 	ops ~~ += -= /= *= &= |= ^= Vec2<T> b
 		x ~~ b.x

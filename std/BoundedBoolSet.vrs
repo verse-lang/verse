@@ -1,22 +1,21 @@
 import ceil from std/math.vrs
 
-class BoundedBoolSet U32 size|
-	Array<U8> data: new Array<U8>(ceil(size / 8.0))
-	add U32 index
-		data[index / 8] |= 1 << (index % 8)
-	remove U32 index
-		data[index / 8] &= ~(1 << (index % 8))
-	has U32 index => Bool
-		return data[index / 8] >> (index % 8) & 1
-	findEmpty => U32
-		U16 n = 0
-		U8 extra = data.length * 8 - data.length
-		while n < data.length - 1
-			if data[n] != 255
+class BoundedBoolSet<UMaxSizeT?UInt:U32 UAtomT?UInt:U8> UMaxSizeT size|
+	alias sizeof(UAtomT) * 8 as numBits
+	data Array<UAtomT UMaxSizeT>(ceil(size / F32(numBits)))
+	add UMaxSizeT index =>
+		data[index / numBits] |: 1 << (index % numBits)
+	remove UMaxSizeT index =>
+		data[index / numBits] &: ~(1 << (index % numBits))
+	has UMaxSizeT index => Bool
+		return data[index / numBits] >> (index % numBits) & 1 = 1
+	findEmpty => UMaxSizeT
+		for n UMaxSizeT: 0, n < size - 1, ++n
+			if data[n] != ~UAtomT(0)
 				break
-		U8 byte = this.data[n]
-		U8 i = 0
-		while i < end
-			if (byte >> i & 1) == 0
+		atom UAtomT: data[n]
+		i UAtomT: 0
+		while i < numBits
+			if (atom >> i & 1) = 0
 				break
-		return n * 8 + i
+		return n * numBits + i

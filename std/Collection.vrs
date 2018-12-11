@@ -1,18 +1,18 @@
 class Collection<T>
-	T[]* data: new T[1]
-	U32 size: 1
-	U32 length: 0
-	U32 add =>
-		if length == size
+	data T*: malloc(1 * sizeof(T))
+	size U32: 1
+	length U32: 0
+	add => U32
+		if length = size
 			grow()
 		return length++
-	remove => U32 index
+	remove U32 index =>
 		if index != --length
-			data[index] = data[length]
+			data[index]: data[length]
 		if length < size / 4.0
 			shrink()
 	grow =>
-		data = realloc(data, cap <<= 1)
+		data: realloc(data, cap <<: 1)
 	shrink =>
 		if cap > 1
-			data = realloc(data, cap >>>= 1)
+			data: realloc(data, cap >>: 1)
