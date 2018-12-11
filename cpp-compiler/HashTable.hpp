@@ -44,10 +44,9 @@ public:
 		u32 end = (i + size - 1) & (size - 1);
 		for (; i != end; i = (i + 1) & (size - 1)) {
 			if (data[i].taken == false) {
-				data[i] = {true, id, item};
-				// data[i].taken = true;
-				// data[i].id = id;
-				// data[i].payload = item;
+				data[i].taken = true;
+				data[i].id = id;
+				data[i].payload = item;
 				return;
 			}
 		}
