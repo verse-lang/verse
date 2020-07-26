@@ -1,3 +1,7 @@
+Since starting this project, I've discovered the Rust programming language.
+Rust is great, and is very close to how I want Verse to be.
+Future development on Verse will just be for fun.
+
 # The Verse Programming Language
 
 Statically typed, concise syntax, classes, templates, const correctness, semi-functional style.
