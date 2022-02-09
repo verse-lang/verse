@@ -23,6 +23,9 @@ void File::lex() {
 		} else if (isLetterL(c)) { // identifier
 			do c = source[++i]; while (isLetterL(c) || isDigit(c));
 			token.id = TokenID::identifier;
+		} else if (c == '/' && source[i + 1] == '/') {
+			while ((c = source[++i]) != '\n' && c != '\0');
+			token.id = TokenID::comment;
 		} else if (isOperator(c)) { // operator
 			while (isOperator(source[++i]));
 			token.id = TokenID::oprtr;
@@ -43,8 +46,8 @@ void File::lex() {
 				if (isDigit(source[++i])) {
 					while (isDigit(source[++i]));
 				} else {
-					puts("Floating point literals may not end with a decimal point.");
-					printError("Lexer", i);
+					puts("Lexer Error: Floating point literals may not end with a decimal point.");
+					printErrorLoc(i - 1);
 				}
 			}
 			token.id = TokenID::number;
@@ -58,15 +61,15 @@ void File::lex() {
 				puts("May not have empty character literal.");
 			} else ++i;
 			if (source[i] != '\'') {
-				puts("Missing end of character literal.");
-				printError("Lexer", i);
+				puts("Lexer Error, Missing end of character literal.");
+				printErrorLoc(i);
 			} else ++i;
 			token.id = TokenID::character;
 		} else if (c == '\0') { // end of file
 			token.id = TokenID::eof;
 		} else {
-			puts("Unrecognized character.");
-			printError("Lexer", i);
+			printf("Lexer Error, Unrecognized character: %c\n", c);
+			printErrorLoc(i);
 			tokens.clear();
 		}
 		token.end = i;

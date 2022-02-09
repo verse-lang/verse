@@ -10,6 +10,7 @@
 #include "Stream.hpp"
 #include "StringTree.hpp"
 #include "NamedValue.hpp"
+#include "Expression.hpp"
 
 void printLineOfString(u8 *string, u32 startChar) {
 	u32 end = startChar;
@@ -52,11 +53,23 @@ public:
 		wait();
 		exit(1);
 	}
-	void printError(const char *errorType, u32 errorLoc) {
-		printf("%s error! At line: %u, and character: %u. (zero indexed)\n",
-			errorType, lineNumber, errorLoc - lineStart);
-			wait();
-			exit(1);
+	void printErrorLoc(u32 errorLoc) {
+		printf("%s%s:%u:%u%s\n", "\033[1;97;40m", path,
+			lineNumber + 1, errorLoc - lineStart, "\033[0m");
+		u32 lineBegin = lineStart;
+		while (source[lineBegin] == '\t') ++lineBegin;
+		u32 lineEnd = errorLoc;
+		while (source[lineEnd] != '\n' && source[lineEnd] != '\0') {
+			++lineEnd;
+		}
+		u8* beforeError = Match{lineBegin, errorLoc}.getText(source);
+		u8* afterError = Match{errorLoc, lineEnd}.getText(source);
+		printf("\033[0;32;40m%s\033[0m", beforeError);
+		printf("%s%s%s\n", "\033[0;31;40m", afterError, "\033[0m");
+		delete beforeError;
+		delete afterError;
+		wait();
+		exit(1);
 	}
 	u32 skipLine(u32 i) { // debugging only
 		while (tokens[i].id != TokenID::eol && tokens[i].id != TokenID::eof) ++i;
@@ -64,6 +77,7 @@ public:
 	}
 	void lex();
 	u32 readType(Token);
+	Expression *parseExpression();
 	void parse();
 	void printTokens() { // debugging only
 		printf("length: %lu, capacity: %lu\n\n", tokens.size(), tokens.capacity());

@@ -1,3 +1,5 @@
+#include "Expression.hpp"
+
 bool u8cmp(u8 *left, const char *right) {
 	u32 i = 0;
 	while (left[i] == right[i]) {
@@ -24,8 +26,13 @@ u32 File::readType(Token cur) {
 	String string(text, cur.end - cur.begin);
 	u32 mainType = names->label(string);
 	delete text;
-	
+
 	return 0;
+}
+Expression *File::parseExpression() {
+	Expression *exp = new Expression();
+	// todo
+	return exp;
 }
 void File::parse() {
 	lineNumber = 0;
@@ -41,8 +48,8 @@ void File::parse() {
 		}
 		i32 indentDiff = (i32)indent - (i32)prevIndent;
 		if (indentDiff > 1) {
-			puts("May not indent more than once!");
-			printError("Parser", cur.begin);
+			puts("Parser Error, May not indent more than once!");
+			printErrorLoc(cur.begin);
 		} else if (indentDiff < 0) {
 			for (i32 n = indentDiff; n > 0; --n) {
 				// close current scope
@@ -86,9 +93,9 @@ void File::parse() {
 					child.lex();
 					child.parse();
 				} else {
-					puts("Unrecognized import format.");
 					delete thirdText;
-					printError("Parser", cur.begin);
+					puts("Parser Error, Unrecognized import format.");
+					printErrorLoc(cur.begin);
 				}
 				delete thirdText;
 			} else {
@@ -118,8 +125,8 @@ void File::parse() {
 				} else puts("Expected variable declaration.");
 				delete text3;
 			} else {
-				puts("Expected an identifer after type to complete declaration.");
-				printError("Parser", cur.begin);
+				puts("Parser Error, Expected an identifer after type to complete declaration.");
+				printErrorLoc(cur.begin);
 			}
 		} else {
 			puts("expression!");

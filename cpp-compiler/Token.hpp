@@ -5,6 +5,7 @@
 
 enum TokenID : u8 {
 	identifier,
+	comment,
 	oprtr,
 	indent,
 	groupDelim,

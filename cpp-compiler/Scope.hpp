@@ -3,4 +3,8 @@
 #include "HashTable.hpp"
 #include "NamedValue.hpp"
 
-typedef HashTable<NamedValue> Scope;
+class Scope {
+public:
+    HashTable<NamedValue> local;
+    Scope *parent = nullptr;
+};

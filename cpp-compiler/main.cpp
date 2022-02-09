@@ -13,12 +13,11 @@ i32 main(const i32 argc, const char *argv[]) {
 		wait();
 		exit(1);
 	}
-	printf("argc: %i, filename: %s\n\n", argc, argv[1]);
+	// printf("argc: %i, filename: %s\n\n", argc, argv[1]);
 	File entry((u8*)argv[1], &names, &types, nullptr);
-	printf("%s\n", entry.source);
+	// printf("%s\n", entry.source);
 
 	entry.lex();
-	entry.printTokens();
 	entry.parse();
 	wait();
 	return 0;
